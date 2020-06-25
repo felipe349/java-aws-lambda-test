@@ -20,19 +20,8 @@ public class App implements RequestHandler<Object, Object> {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         headers.put("X-Custom-Header", "application/json");
-        try {
-            final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
-            String output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", pageContents);
-            return new GatewayResponse(output, headers, 200);
-        } catch (IOException e) {
-            return new GatewayResponse("{}", headers, 500);
-        }
+        String output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", "unknown");
+        return new GatewayResponse(output, headers, 200);
     }
 
-    private String getPageContents(String address) throws IOException{
-        URL url = new URL(address);
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()))) {
-            return br.lines().collect(Collectors.joining(System.lineSeparator()));
-        }
-    }
 }
